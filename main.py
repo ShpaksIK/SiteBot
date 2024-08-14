@@ -1,22 +1,35 @@
 import os
+import asyncio
 
 from dotenv import load_dotenv
+import discord
+from discord.ext import commands
 
-from src.bot import Bot
 
-
-def main():
+async def main():
     # Получение данных .env
     load_dotenv()
     TOKEN = os.getenv("TOKEN")
     BOTNAME = os.getenv("BOTNAME")
     BOTPREFIX = os.getenv("BOTPREFIX")
 
-    # Создание экземпляра класса Bot
-    global bot_main
-    bot_main = Bot(bot_name=BOTNAME, bot_prefix=BOTPREFIX)
-    bot_main.run_bot(TOKEN)
+    # Инициализация бота
+    intents = discord.Intents().all()
+    bot = commands.Bot(command_prefix=BOTPREFIX, intents=intents)
+
+    # Инициализация модулей
+    async def load_extensions():
+        for filename in os.listdir("./utils/cogs"):
+            if filename.endswith(".py") and not filename.startswith("_"):
+                await bot.load_extension(f"cogs.{filename[:-3]}")
+                print(f"cogs.{filename[:-3]}")
+
+    # Запуск бота
+    # bot.run(TOKEN)
+    # async with bot:
+    #     await load_extensions()
+    await bot.start(TOKEN)
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
