@@ -1,1 +1,4 @@
 .env
+__pycache__
+cogs/__pycache__
+db/__pycache__

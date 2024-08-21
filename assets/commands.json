@@ -1,0 +1,182 @@
+[
+    {
+        "type": "general",
+        "name": "help",
+        "description": "справка по всем командам",
+        "use": "help [command]"
+    },
+    {
+        "type": "general",
+        "name": "bot",
+        "description": "информация о TeamBot",
+        "use": "bot"
+    },
+    {
+        "type": "general",
+        "name": "server",
+        "description": "информация о сервере",
+        "use": "server"
+    },
+    {
+        "type": "general",
+        "name": "user",
+        "description": "информация о пользователе",
+        "use": "user [@Пользователь]"
+    },
+    {
+        "type": "moderation",
+        "name": "ban",
+        "description": "блокировка пользователя на сервере",
+        "use": "ban <@Пользователь> [длительность] [причина]"
+    },
+    {
+        "type": "moderation",
+        "name": "unban",
+        "description": "снятие блокировки пользователя на сервере",
+        "use": "unban <@Пользователь>"
+    },
+    {
+        "type": "moderation",
+        "name": "kick",
+        "description": "изгнание пользователя с сервера",
+        "use": "kick <@Пользователь> [причина]"
+    },
+    {
+        "type": "moderation",
+        "name": "mute",
+        "description": "блокировка текстовых каналов пользователя на сервере",
+        "use": "mute <@Пользователь> [длительность] [причина]"
+    },
+    {
+        "type": "moderation",
+        "name": "unmute",
+        "description": "снятие блокировки текстовых каналов пользователя на сервере",
+        "use": "unmute <@Пользователь>"
+    },
+    {
+        "type": "moderation",
+        "name": "vmute",
+        "description": "блокировка голосовых каналов пользователя на сервере",
+        "use": "vmute <@Пользователь> [длительность] [причина]"
+    },
+    {
+        "type": "moderation",
+        "name": "vunmute",
+        "description": "снятие блокировки голосовых каналов пользователя на сервере",
+        "use": "vunmute <@Пользователь>"
+    },
+    {
+        "type": "moderation",
+        "name": "warn",
+        "description": "выдача предупреждения пользователю на сервере",
+        "use": "warn <@Пользователь> [причина]"
+    },
+    {
+        "type": "moderation",
+        "name": "unwarn",
+        "description": "снятие предупреждения пользователя на сервере",
+        "use": "warn <@Пользователь>"
+    },
+    {
+        "type": "moderation",
+        "name": "clearwarns",
+        "description": "снятие всех предупреждений пользователя на сервере",
+        "use": "clearwarns <@Пользователь>"
+    },
+    {
+        "type": "moderation",
+        "name": "warns",
+        "description": "просмотр списка текущих предупреждений пользователя",
+        "use": "warns <@Пользователь>"
+    },
+    {
+        "type": "moderation",
+        "name": "clear",
+        "description": "отчистка последних сообщений пользователя в текущем канале",
+        "use": "clear <@Пользователь> <количество>"
+    },
+    {
+        "type": "moderation",
+        "name": "role",
+        "description": "выдача роли пользователю на сервере",
+        "use": "role <@Пользователь> <@Роль>"
+    },
+    {
+        "type": "fun",
+        "name": "rand",
+        "description": "выводит случайное число в заданном диапазоне",
+        "use": "rand [Xmin] [Xmax]"
+    },
+    {
+        "type": "fun",
+        "name": "coin",
+        "description": "бросить монетку",
+        "use": "coin"
+    },
+    {
+        "type": "music",
+        "name": "play",
+        "description": "воспроизводить музыку",
+        "use": "play <ссылка YouTube>"
+    },
+    {
+        "type": "music",
+        "name": "skip",
+        "description": "пропустить музыку",
+        "use": "skip"
+    },
+    {
+        "type": "music",
+        "name": "stop",
+        "description": "остановить (выключить) музыку",
+        "use": "stop"
+    },
+    {
+        "type": "music",
+        "name": "pause",
+        "description": "поставить музыку на паузу",
+        "use": "pause"
+    },
+    {
+        "type": "music",
+        "name": "start",
+        "description": "продолжить воспроизведение после паузы",
+        "use": "start"
+    },
+    {
+        "type": "music",
+        "name": "replay",
+        "description": "начать воспроизведение с начала",
+        "use": "replay"
+    },
+    {
+        "type": "music",
+        "name": "current",
+        "description": "узнать информацию о текущей музыке",
+        "use": "current"
+    },
+    {
+        "type": "utils",
+        "name": "avatar",
+        "description": "выводит аватар указанного пользователя",
+        "use": "avatar [@Пользователь]"
+    },
+    {
+        "type": "utils",
+        "name": "math",
+        "description": "посчитать математический пример",
+        "use": "math <пример>"
+    },
+    {
+        "type": "utils",
+        "name": "gor",
+        "description": "гороскоп знаков зодиака на сегодня",
+        "use": "gor"
+    },
+    {
+        "type": "utils",
+        "name": "tr",
+        "description": "перевод текста на русский язык",
+        "use": "tr <текст>"
+    }
+]
