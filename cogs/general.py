@@ -1,10 +1,13 @@
 import sys
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 import discord
 from discord.ext import commands
 
 sys.path.append("..")
 from main import BOT_PREFIX, BOT_SITE, BOT_NAME, db_con
+from utils.math import calculate_server_age
 
 
 class GeneralCog(commands.Cog):
@@ -80,8 +83,35 @@ class GeneralCog(commands.Cog):
 
     @commands.command()
     async def server(self, ctx):
+        guild = ctx.guild
+        server_name = guild.name
+        server_id = guild.id
+        owner = guild.owner
+        admin_members = len([member for member in guild.members if member.guild_permissions.administrator])
+        creation_date = guild.created_at
+        creation_date_str = creation_date.strftime("%Y-%m-%d")
+        years, months, days = calculate_server_age(creation_date)
+        server_age_str = f"{years} лет, {months} месяцев, {days} дней"
+        total_members = guild.member_count
+        total_bots = len([member for member in guild.members if member.bot])
+        text_channels = len(guild.text_channels)
+        voice_channels = len(guild.voice_channels)
+        total_channels = text_channels + voice_channels
+        server_avatar = guild.icon.url if guild.icon else 'Нет аватара'
+
+        emb1 = discord.Embed(title=f"Информация о сервере {server_name}", color=0xffffff)
+        emb1.set_thumbnail(url=server_avatar)
+        emb1.add_field(name="Участники", value=f"Всего: **{total_members}**\nЛюдей: **{total_members-total_bots}**\nБотов: **{total_bots}**")
+        emb1.add_field(name="Каналы", value=f"Всего: **{total_channels}**\nТекстовые: **{text_channels}**\nГолосовые: **{voice_channels}**")
+        emb1.add_field(name="Дата создания", value=f"{creation_date_str}\n*{server_age_str}*")
+        emb1.add_field(name="Администраторы", value=f"Владелец: **{owner}**\nАдминистраторов: **{admin_members}**")
+        emb1.set_footer(text=f"ID: {server_id}")
+        await ctx.send(embed=emb1)
+
+    @commands.command()
+    async def user(self, ctx):
         pass
     
-    
+
 async def setup(bot):
     await bot.add_cog(GeneralCog(bot))
