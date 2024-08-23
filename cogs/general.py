@@ -1,6 +1,4 @@
 import sys
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
 
 import discord
 from discord.ext import commands
@@ -8,6 +6,7 @@ from discord.ext import commands
 sys.path.append("..")
 from main import BOT_PREFIX, BOT_SITE, BOT_NAME, db_con
 from utils.math import calculate_server_age
+from utils.check import check_status
 
 
 class GeneralCog(commands.Cog):
@@ -55,7 +54,6 @@ class GeneralCog(commands.Cog):
         
         else:
             bot_command = db_con.get_commands(db_con.connection, command=command_name)
-            print(bot_command)
             if bot_command == []:
                 emb1 = discord.Embed(title="Ошибка", description="Такой команды не существует.", color=0xffffff)
             else:
@@ -100,17 +98,39 @@ class GeneralCog(commands.Cog):
         server_avatar = guild.icon.url if guild.icon else 'Нет аватара'
 
         emb1 = discord.Embed(title=f"Информация о сервере {server_name}", color=0xffffff)
-        emb1.set_thumbnail(url=server_avatar)
         emb1.add_field(name="Участники", value=f"Всего: **{total_members}**\nЛюдей: **{total_members-total_bots}**\nБотов: **{total_bots}**")
         emb1.add_field(name="Каналы", value=f"Всего: **{total_channels}**\nТекстовые: **{text_channels}**\nГолосовые: **{voice_channels}**")
         emb1.add_field(name="Дата создания", value=f"{creation_date_str}\n*{server_age_str}*")
         emb1.add_field(name="Администраторы", value=f"Владелец: **{owner}**\nАдминистраторов: **{admin_members}**")
+        emb1.set_thumbnail(url=server_avatar)
         emb1.set_footer(text=f"ID: {server_id}")
-        await ctx.send(embed=emb1)
+        await ctx.send(embed = emb1)
 
     @commands.command()
-    async def user(self, ctx):
-        pass
+    async def user(self, ctx, user_id: discord.Member = None):
+        if user_id is None:
+            user_id = ctx.author
+        days_of_week = {0: 'Понедельник', 1: 'Вторник', 2: 'Среда', 3: 'Четверг', 4: 'Пятница', 5: 'Суббота', 6: 'Воскресенье'}
+        months = {1: 'января', 2: 'февраля', 3: 'марта', 4: 'апреля', 5: 'мая', 6: 'июня', 7: 'июля', 8: 'августа', 9: 'сентября', 10: 'октября', 11: 'ноября', 12: 'декабря'}
+        ampm = "утра" if user_id.created_at.strftime('%p') == "AM" else "вечера"
+        formatted_date = user_id.created_at.strftime("%a, %#d %B %Y года, %I:%M %p")
+        formatted_date = formatted_date.replace(user_id.created_at.strftime('%a'), days_of_week[user_id.created_at.weekday()])
+        formatted_date = formatted_date.replace(user_id.created_at.strftime('%B'), months[user_id.created_at.month])
+        formatted_date = formatted_date.replace(user_id.created_at.strftime('%p'), ampm)
+        user_status = check_status(discord, user_id)
+        roles = [role.id for role in user_id.roles if role.name != '@everyone']
+        roles_list = ', '.join(f"<@&{role_id}>" for role_id in roles)
+        join_time = user_id.joined_at.strftime("%Y.%m.%d в %H:%M:%S")
+
+        emb1 = discord.Embed(title="Информация о пользователе", color=0xffffff)
+        emb1.add_field(name="**Ник**", value=f"<@{user_id.id}> | `{user_id.name}`", inline=True)
+        emb1.add_field(name="**Активность**", value=f"{user_status}",inline=True)
+        emb1.add_field(name="**Акаунт был создан**", value=f'{formatted_date}', inline=False)
+        emb1.add_field(name="**Присоединился**", value=f"{join_time}", inline=False)
+        emb1.add_field(name="**Роли пользователя**", value=f"{roles_list}", inline=False)
+        emb1.set_thumbnail(url=user_id.avatar)
+        emb1.set_footer(text=f"ID: {user_id.id}")
+        await ctx.reply(embed = emb1)
     
 
 async def setup(bot):

@@ -169,12 +169,6 @@
     },
     {
         "type": "utils",
-        "name": "gor",
-        "description": "гороскоп знаков зодиака на сегодня",
-        "use": "gor"
-    },
-    {
-        "type": "utils",
         "name": "tr",
         "description": "перевод текста на русский язык",
         "use": "tr <текст>"
