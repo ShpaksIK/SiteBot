@@ -1,6 +1,11 @@
+import sys
+
 import discord
 from discord.ext import commands
 from translate import Translator
+
+sys.path.append("..")
+from utils.math import calculate_expression
 
 
 class UtilCog(commands.Cog):
@@ -28,6 +33,15 @@ class UtilCog(commands.Cog):
         emb1 = discord.Embed(title=f"Перевод с RU в ENG", description=f"{translation}", color=0xffffff)
         await ctx.send(embed = emb1)
 
-    
+    @commands.command()
+    async def math(self, ctx, *expression):
+        res = calculate_expression("".join(expression))
+        if res is not None:
+            emb1 = discord.Embed(title="Ответ", description=f"**{res}**", color=0xffffff)
+        else:
+            emb1 = discord.Embed(title="Ошибка", description="Невалидное выражение", color=0xffffff)
+        await ctx.send(embed=emb1)
+
+
 async def setup(bot):
     await bot.add_cog(UtilCog(bot))
